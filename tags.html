@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OpenLiberty Image Tags</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      input[type='radio'] {
+        vertical-align: middle;
+        position: relative;
+        top: -2px;
+      }
+
+      .tag-display {
+        font-family: monospace;
+        font-size: 2.2em;
+        margin: 1em 0;
+      }
+
+      .placeholder {
+        color: gray;
+      }
+
+      .options-container {
+        display: flex;
+        align-items: top;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .option {
+        margin: 0 1em;
+        min-width: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .option input {
+        margin: 5pt 5pt;
+      }
+
+      .option label {
+        font-size: 1.2em;
+      }
+    </style>
+    <script type="text/javascript">
+      const updateTag = () => {
+        let tagText = '';
+        
+        let versions = document.getElementsByName('version');
+        for (version of versions) {
+          if (version.checked) {
+            tagText += version.value === 'latest' ? '' : version.value;
+            break;
+          }
+        }
+
+        let features = document.getElementsByName('features');
+        for (feature of features) {
+            if (feature.checked) {
+                if (tagText !== '') {
+                    tagText += '-'
+                }
+                tagText += feature.value;
+            }
+        }
+
+        let javaVersions = document.getElementsByName('java-version');
+        for (javaVersion of javaVersions) {
+            if (javaVersion.checked) {
+                tagText += '-' + javaVersion.value;
+            }
+        }
+
+        tagText += '-openj9-ubi';
+
+        console.log('OpenLiberty tag name: ', tagText);
+
+        tag.innerHTML = tagText;
+      };
+
+      window.onload = () => {
+        let inputs = document.getElementsByTagName('input');
+        for (input of inputs) {
+          if (input.type === 'radio') {
+            input.addEventListener('change', updateTag);
+          }
+        }
+
+        updateTag();
+      };
+    </script>
+  </head>
+  <body>
+    <div class="tag-display"><span class="placeholder">openliberty/open-liberty:</span><span id="tag">tag-here</span></div>
+    <div class="options-container">
+      <div class="option">
+        <h3>Version</h3>
+        <div class="buttons">
+          <div class="radio">
+            <input type="radio" id="version-latest" name="version" value="latest" checked />
+            <label for="version-latest">Latest</label>
+          </div>
+
+          <div class="radio">
+            <input type="radio" id="version-20.0.0.12" name="version" value="20.0.0.12" />
+            <label for="version-20.0.0.12">20.0.0.12</label>
+          </div>
+        </div>
+      </div>
+      <div class="option">
+        <h3>Features</h3>
+        <div class="buttons">
+          <div class="radio">
+            <input type="radio" id="features-kernel-slim" name="features" value="kernel-slim" checked />
+            <label for="features-kernel-slim">kernel-slim</label>
+          </div>
+          <div class="radio">
+            <input type="radio" id="features-full" name="features" value="full" />
+            <label for="features-full">full</label>
+          </div>
+        </div>
+      </div>
+      <div class="option">
+        <h3>Java Version</h3>
+        <div class="buttons">
+          <div class="radio">
+            <input type="radio" id="java-version-java8" name="java-version" value="java8" checked />
+            <label for="java-version-java8">Java 8</label>
+          </div>
+          <div class="radio">
+            <input type="radio" id="java-version-java11" name="java-version" value="java11" />
+            <label for="java-version-java11">Java 11</label>
+          </div>
+          <div class="radio">
+            <input type="radio" id="java-version-java15" name="java-version" value="java15" />
+            <label for="java-version-java15">Java 15</label>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="option">
+        <h3>Java Runtime</h3>
+      </div>
+      <div class="option">
+        <h3>Base Image</h3>
+      </div> -->
+    </div>
+  </body>
+</html>
