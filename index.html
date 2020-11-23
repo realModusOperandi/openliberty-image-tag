@@ -50,11 +50,22 @@
       .option label {
         font-size: 1.2em;
       }
+
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: black;
+          color: white;
+        }
+
+        .placeholder {
+          color: #ccc;
+        }
+      }
     </style>
     <script type="text/javascript">
       const updateTag = () => {
         let tagText = '';
-        
+
         let versions = document.getElementsByName('version');
         for (version of versions) {
           if (version.checked) {
@@ -65,19 +76,19 @@
 
         let features = document.getElementsByName('features');
         for (feature of features) {
-            if (feature.checked) {
-                if (tagText !== '') {
-                    tagText += '-'
-                }
-                tagText += feature.value;
+          if (feature.checked) {
+            if (tagText !== '') {
+              tagText += '-';
             }
+            tagText += feature.value;
+          }
         }
 
         let javaVersions = document.getElementsByName('java-version');
         for (javaVersion of javaVersions) {
-            if (javaVersion.checked) {
-                tagText += '-' + javaVersion.value;
-            }
+          if (javaVersion.checked) {
+            tagText += '-' + javaVersion.value;
+          }
         }
 
         tagText += '-openj9-ubi';
